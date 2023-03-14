@@ -1,12 +1,17 @@
 import { ajoutListenersAvis } from "./avis.js";
+// Remplacez la ligne qui récupère les pièces depuis le fichier JSON, 
+// de manière à les récupérer depuis l’API à l’adresse http://localhost:8081/pieces.
+const reponse = await fetch('http://localhost:8081/pieces/');
+const pieces = await reponse.json();
 
 // Récupération des pièces depuis le fichier JSON
 // const reponse = await fetch('pieces-autos.json');
 // const pieces = await reponse.json();
 
 //Autre façon de faire le fetch
-const pieces = await fetch("pieces-autos.json").then(pieces => pieces.json());
-console.log("pièces", pieces);
+// Récupération des pièces depuis le fichier JSON
+// const pieces = await fetch("pieces-autos.json").then(pieces => pieces.json());
+// console.log("pièces", pieces);
 
 function genererPieces(pieces) {
     for (let i = 0; i < pieces.length; i++) {
