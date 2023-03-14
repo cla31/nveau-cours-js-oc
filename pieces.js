@@ -1,75 +1,70 @@
 // Récupération des pièces depuis le fichier JSON
-const reponse = await fetch('pieces-autos.json');
-const pieces = await reponse.json();
-console.log(pieces);
+// const reponse = await fetch('pieces-autos.json');
+// const pieces = await reponse.json();
 
-//Affichage de plusieurs fiches produits grace à la boucle for:
-for (let i = 0; i < pieces.length; i++) {
+//Autre façon de faire le fetch
+const pieces = await fetch("pieces-autos.json").then(pieces => pieces.json());
+console.log("pièces", pieces);
 
-    //Création des éléments
-    const article = pieces[i];
-    const imageElement = document.createElement("img");
-    imageElement.src = article.image;
-    const nomElement = document.createElement("h2");
-    nomElement.innerText = article.nom;
-    const prixElement = document.createElement("p");
-    prixElement.innerText = `Prix: ${article.prix} € (${article.prix < 35 ? "€" : "€€€"})`;
-    const categorieElement = document.createElement("p");
-    categorieElement.innerText = article.categorie ? article.categorie : "(Aucune catégorie)";
-    const descriptionElement = document.createElement("p");
-    descriptionElement.innerText = article.description ? article.description : "(Pas de description pour le moment)";
-    const stockElement = document.createElement("p");
-    stockElement.innerHTML = article.disponibilite ? "En stock" : "Rupture de stock";
+function genererPieces(pieces) {
+    for (let i = 0; i < pieces.length; i++) {
+        const article = pieces[i];
+        // Récupération de l'élément du DOM qui accueillera les fiches
+        const sectionFiches = document.querySelector(".fiches");
+        // Création d’une balise dédiée à une pièce automobile
+        const pieceElement = document.createElement("article");
+        // Création des balises 
+        const imageElement = document.createElement("img");
+        imageElement.src = article.image;
+        const nomElement = document.createElement("h2");
+        nomElement.innerText = article.nom;
+        const prixElement = document.createElement("p");
+        prixElement.innerText = `Prix: ${article.prix} € (${article.prix < 35 ? "€" : "€€€"})`;
+        const categorieElement = document.createElement("p");
+        categorieElement.innerText = article.categorie ? article.categorie : "(Aucune catégorie)";
+        const descriptionElement = document.createElement("p");
+        descriptionElement.innerText = article.description ? article.description : "(Pas de description pour le moment)";
+        const stockElement = document.createElement("p");
+        stockElement.innerText = article.disponibilite ? "En stock" : "Rupture de stock";
 
+        // On rattache la balise article a la section Fiches
+        sectionFiches.appendChild(pieceElement);
+        // On rattache l’image à pieceElement (la balise article)
+        pieceElement.appendChild(imageElement);
+        pieceElement.appendChild(nomElement);
+        pieceElement.appendChild(prixElement);
+        pieceElement.appendChild(categorieElement);
+        //Ajout des éléments au DOM pour l'exercice
+        pieceElement.appendChild(descriptionElement);
+        pieceElement.appendChild(stockElement);
 
-    // Pour rattacher tous ces éléments, nous avons besoin d'un parent,
-    // Ainsi, nous allons utiliser la fonction appendChild en JavaScript.
-    // La classe ".fiches" sera le parent
-    const sectionFiches = document.querySelector(".fiches");
-    const pieceElement = document.createElement("article");
-    sectionFiches.appendChild(pieceElement)
-    pieceElement.appendChild(imageElement);
-    pieceElement.appendChild(nomElement);
-    pieceElement.appendChild(prixElement);
-    pieceElement.appendChild(categorieElement);
-    pieceElement.appendChild(descriptionElement);
-    pieceElement.appendChild(stockElement);
+    }
+
 }
-//gestion des bouttons :::::::::::::::::::::::
-//Pour l'instant, tri et filtre n'apparaîssent que dans le console log
+genererPieces(pieces);
+//gestion des bouttons 
 const boutonTrier = document.querySelector(".btn-trier");
+
 boutonTrier.addEventListener("click", function() {
-    // pieces.sort(function(a, b) {
-    //     return a.prix - b.prix;
-    // });
-    // console.log("Les pièces", pieces);
-    //Pour ne pas que la liste d'origine soit modifiée
-    //Création d'une copie de la liste avec la fonction Array.from:
     const piecesOrdonnees = Array.from(pieces);
-    // a et b représentent 2 élémnts de la liste à comparer
     piecesOrdonnees.sort(function(a, b) {
         return a.prix - b.prix;
     });
-    console.log("piecesOrdonnees", piecesOrdonnees);
+    document.querySelector(".fiches").innerHTML = "";
+    genererPieces(piecesOrdonnees);
 });
 
-//Pour filtrer
 const boutonFiltrer = document.querySelector(".btn-filtrer");
-//Pas besoin de créer ici une copie de la liste, filter le fait pour nous.
+
 boutonFiltrer.addEventListener("click", function() {
     const piecesFiltrees = pieces.filter(function(piece) {
-        return piece.prix <= 35
+        return piece.prix <= 35;
     });
-    console.log("piecesFiltrees", piecesFiltrees);
+    document.querySelector(".fiches").innerHTML = "";
+    genererPieces(piecesFiltrees);
 });
 
-//Correction de l'exercice :::::::::::::::::::::::
-//Correction Exercice:
-// Editez les fichiers pieces.js et index.html pour y ajouter les fonctionnalités suivantes :
-
-// --> filtrer la liste des pièces pour n’afficher que celles qui ont une description, à l’aide d’un bouton que vous ajouterez dans le HTML ;
-// --> ordonner les listes selon le prix en ordre décroissant, à l’aide d’un bouton que vous ajouterez dans le HTML.
-
+//Correction Exercice
 const boutonDecroissant = document.querySelector(".btn-decroissant");
 
 boutonDecroissant.addEventListener("click", function() {
@@ -77,7 +72,8 @@ boutonDecroissant.addEventListener("click", function() {
     piecesOrdonnees.sort(function(a, b) {
         return b.prix - a.prix;
     });
-    console.log(piecesOrdonnees);
+    document.querySelector(".fiches").innerHTML = "";
+    genererPieces(piecesOrdonnees);
 });
 
 const boutonNoDescription = document.querySelector(".btn-nodesc");
@@ -86,53 +82,42 @@ boutonNoDescription.addEventListener("click", function() {
     const piecesFiltrees = pieces.filter(function(piece) {
         return piece.description
     });
-    console.log(piecesFiltrees)
+    document.querySelector(".fiches").innerHTML = "";
+    genererPieces(piecesFiltrees);
 });
 
-// Génération d'une liste qui ne contient que les noms des pièces:
-//Retourne la valeur de la propriété nom de l'objet pièce
 const noms = pieces.map(piece => piece.nom);
-// Pour retirer le nom des pèces qui ne sont pas abordables:
-//On commence à faire parcourir la boucle à partir du dernier indice: piece.length - 1
-// A chaque tour de boucle la valeur de i est diminuée de 1, donc
-//il ne faut pas descendre en dessous de 0:
 for (let i = pieces.length - 1; i >= 0; i--) {
-    // condition si le prix de la pièce est supérieur à 35:
     if (pieces[i].prix > 35) {
-        //Si c le cas, suppression du nom de la pièce dans la liste nom
-        noms.splice(i, 1);
-
+        noms.splice(i, 1)
     }
 }
-// Création des éléments du DOM qui formeront la liste à l'écran:
+console.log(noms);
+//Création de l'en-tête
+
+const pElement = document.createElement('p')
+pElement.innerText = "Pièces abordables";
+//Création de la liste
 const abordablesElements = document.createElement('ul');
-//Parcours de la liste des noms
+//Ajout de chaque nom à la liste
 for (let i = 0; i < noms.length; i++) {
     const nomElement = document.createElement('li');
     nomElement.innerText = noms[i];
-    abordablesElements.appendChild(nomElement);
+    abordablesElements.appendChild(nomElement)
 }
-
-//Appel de la fonction appenChild sur le parent
-document.querySelector(".abordables").appendChild(abordablesElements);
+// Ajout de l'en-tête puis de la liste au bloc résultats filtres
+document.querySelector('.abordables')
+    .appendChild(pElement)
+    .appendChild(abordablesElements)
 
 //Code Exercice 
-// affichez une description des pièces disponibles à côté de la description des pièces abordables. 
-//L’intitulé de la pièce devra aussi contenir son prix. Par exemple :
-
-// Pièces disponibles :
-
-// Ampoule LED – 60 €.
-// Plaquette de frein (x4) – 40 €.
-// Liquide de frein – 9,6 €.
-
-const nomsDisponibles = pieces.map(piece => piece.nom);
-const prixDisponibles = pieces.map(piece => piece.prix);
+const nomsDisponibles = pieces.map(piece => piece.nom)
+const prixDisponibles = pieces.map(piece => piece.prix)
 
 for (let i = pieces.length - 1; i >= 0; i--) {
     if (pieces[i].disponibilite === false) {
-        nomsDisponibles.splice(i, 1);
-        prixDisponibles.splice(i, 1);
+        nomsDisponibles.splice(i, 1)
+        prixDisponibles.splice(i, 1)
     }
 }
 
@@ -140,8 +125,24 @@ const disponiblesElement = document.createElement('ul');
 
 for (let i = 0; i < nomsDisponibles.length; i++) {
     const nomElement = document.createElement('li');
-    nomElement.innerText = `${nomsDisponibles[i]} - ${prixDisponibles[i]} €`;
-    disponiblesElement.appendChild(nomElement);
+    nomElement.innerText = `${nomsDisponibles[i]} - ${prixDisponibles[i]} €`
+    disponiblesElement.appendChild(nomElement)
 }
 
-document.querySelector('.disponibles').appendChild(disponiblesElement);
+const pElementDisponible = document.createElement('p')
+pElementDisponible.innerText = "Pièces disponibles:";
+document.querySelector('.disponibles').appendChild(pElementDisponible).appendChild(disponiblesElement)
+    // Depuis les fichiers index.html et pieces.js de la branche P2C3-Exercice :
+
+// ajoutez une balise input de type range dans la page web, représentant le prix maximum pour filtrer les pièces :
+// valeur min : 0
+// valeur max : 60
+// step: 5.
+const inputPrixMax = document.querySelector('#prix-max')
+inputPrixMax.addEventListener('input', function() {
+    const piecesFiltrees = pieces.filter(function(piece) {
+        return piece.prix <= inputPrixMax.value;
+    });
+    document.querySelector(".fiches").innerHTML = "";
+    genererPieces(piecesFiltrees);
+})
