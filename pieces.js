@@ -88,3 +88,60 @@ boutonNoDescription.addEventListener("click", function() {
     });
     console.log(piecesFiltrees)
 });
+
+// Génération d'une liste qui ne contient que les noms des pièces:
+//Retourne la valeur de la propriété nom de l'objet pièce
+const noms = pieces.map(piece => piece.nom);
+// Pour retirer le nom des pèces qui ne sont pas abordables:
+//On commence à faire parcourir la boucle à partir du dernier indice: piece.length - 1
+// A chaque tour de boucle la valeur de i est diminuée de 1, donc
+//il ne faut pas descendre en dessous de 0:
+for (let i = pieces.length - 1; i >= 0; i--) {
+    // condition si le prix de la pièce est supérieur à 35:
+    if (pieces[i].prix > 35) {
+        //Si c le cas, suppression du nom de la pièce dans la liste nom
+        noms.splice(i, 1);
+
+    }
+}
+// Création des éléments du DOM qui formeront la liste à l'écran:
+const abordablesElements = document.createElement('ul');
+//Parcours de la liste des noms
+for (let i = 0; i < noms.length; i++) {
+    const nomElement = document.createElement('li');
+    nomElement.innerText = noms[i];
+    abordablesElements.appendChild(nomElement);
+}
+
+//Appel de la fonction appenChild sur le parent
+document.querySelector(".abordables").appendChild(abordablesElements);
+
+//Code Exercice 
+// affichez une description des pièces disponibles à côté de la description des pièces abordables. 
+//L’intitulé de la pièce devra aussi contenir son prix. Par exemple :
+
+// Pièces disponibles :
+
+// Ampoule LED – 60 €.
+// Plaquette de frein (x4) – 40 €.
+// Liquide de frein – 9,6 €.
+
+const nomsDisponibles = pieces.map(piece => piece.nom);
+const prixDisponibles = pieces.map(piece => piece.prix);
+
+for (let i = pieces.length - 1; i >= 0; i--) {
+    if (pieces[i].disponibilite === false) {
+        nomsDisponibles.splice(i, 1);
+        prixDisponibles.splice(i, 1);
+    }
+}
+
+const disponiblesElement = document.createElement('ul');
+
+for (let i = 0; i < nomsDisponibles.length; i++) {
+    const nomElement = document.createElement('li');
+    nomElement.innerText = `${nomsDisponibles[i]} - ${prixDisponibles[i]} €`;
+    disponiblesElement.appendChild(nomElement);
+}
+
+document.querySelector('.disponibles').appendChild(disponiblesElement);
