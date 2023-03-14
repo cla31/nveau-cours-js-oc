@@ -35,7 +35,7 @@ for (let i = 0; i < pieces.length; i++) {
     pieceElement.appendChild(descriptionElement);
     pieceElement.appendChild(stockElement);
 }
-
+//gestion des bouttons :::::::::::::::::::::::
 //Pour l'instant, tri et filtre n'apparaîssent que dans le console log
 const boutonTrier = document.querySelector(".btn-trier");
 boutonTrier.addEventListener("click", function() {
@@ -46,6 +46,7 @@ boutonTrier.addEventListener("click", function() {
     //Pour ne pas que la liste d'origine soit modifiée
     //Création d'une copie de la liste avec la fonction Array.from:
     const piecesOrdonnees = Array.from(pieces);
+    // a et b représentent 2 élémnts de la liste à comparer
     piecesOrdonnees.sort(function(a, b) {
         return a.prix - b.prix;
     });
@@ -54,9 +55,36 @@ boutonTrier.addEventListener("click", function() {
 
 //Pour filtrer
 const boutonFiltrer = document.querySelector(".btn-filtrer");
+//Pas besoin de créer ici une copie de la liste, filter le fait pour nous.
 boutonFiltrer.addEventListener("click", function() {
     const piecesFiltrees = pieces.filter(function(piece) {
         return piece.prix <= 35
     });
     console.log("piecesFiltrees", piecesFiltrees);
+});
+
+//Correction de l'exercice :::::::::::::::::::::::
+//Correction Exercice:
+// Editez les fichiers pieces.js et index.html pour y ajouter les fonctionnalités suivantes :
+
+// --> filtrer la liste des pièces pour n’afficher que celles qui ont une description, à l’aide d’un bouton que vous ajouterez dans le HTML ;
+// --> ordonner les listes selon le prix en ordre décroissant, à l’aide d’un bouton que vous ajouterez dans le HTML.
+
+const boutonDecroissant = document.querySelector(".btn-decroissant");
+
+boutonDecroissant.addEventListener("click", function() {
+    const piecesOrdonnees = Array.from(pieces);
+    piecesOrdonnees.sort(function(a, b) {
+        return b.prix - a.prix;
+    });
+    console.log(piecesOrdonnees);
+});
+
+const boutonNoDescription = document.querySelector(".btn-nodesc");
+
+boutonNoDescription.addEventListener("click", function() {
+    const piecesFiltrees = pieces.filter(function(piece) {
+        return piece.description
+    });
+    console.log(piecesFiltrees)
 });
