@@ -7,25 +7,41 @@ export function ajoutListenersAvis() {
         piecesElements[i].addEventListener("click", async function(event) {
 
             const id = event.target.dataset.id;
-            //url personnalisée
-            const response = await fetch(`http://localhost:8081/pieces/${id}/avis`);
-            const avis = await response.json();
-            //Ajout des avis au DOM: 
-            //on récupère la cible de l'évènement:
+            const reponse = await fetch("http://localhost:8081/pieces/" + id + "/avis");
+            const avis = await reponse.json();
             const pieceElement = event.target.parentElement;
-            const avisElement = document.createElement('p');
-            // Remplissage de la balise p en parcourant les avis
+
+            const avisElement = document.createElement("p");
             for (let i = 0; i < avis.length; i++) {
-                avisElement.innerHTML += `<b>${avis[i].utilisateur}:</b>${avis[i].commentaire}<br>`
-
+                avisElement.innerHTML += `<b>${avis[i].utilisateur}:</b> ${avis[i].commentaire} <br> ${avis[i].nbEtoiles} <br>`;
             }
-            //On rattache l'élément p au parent
             pieceElement.appendChild(avisElement);
-
-
 
         });
 
     }
+}
+
+export function ajoutListenerEnvoyerAvis() {
+    const formulaireAvis = document.querySelector(".formulaire-avis");
+    formulaireAvis.addEventListener("submit", function(event) {
+        event.preventDefault();
+        // Création de l’objet du nouvel avis.
+        const avis = {
+            pieceId: parseInt(event.target.querySelector("[name=piece-id]").value),
+            utilisateur: event.target.querySelector("[name=utilisateur").value,
+            commentaire: event.target.querySelector("[name=commentaire]").value,
+            //Rajout des étoiles
+            nbEtoiles: parseInt(event.target.querySelector("[name=nbEtoiles]").value)
+        };
+        // Création de la charge utile au format JSON
+        const chargeUtile = JSON.stringify(avis);
+        // Appel de la fonction fetch avec toutes les informations nécessaires
+        fetch("http://localhost:8081/avis", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: chargeUtile
+        });
+    });
 
 }
