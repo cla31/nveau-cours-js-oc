@@ -16,7 +16,7 @@
 This project contains different branches to keep track of different code versions as the course progresses.<br/>
 ##
 **Start the project**:<br/>
-From "start-project" branch to "display-filter-and-sort" branch,nothing to install, just open the index.html file.<br/>
+From "start-project" branch to "display-filter-and-sort" branch, nothing to install, just open the index.html file.<br/>
 - "start-project" branch:<br/>
 :point_right: [here](https://github.com/cla31/nveau-cours-js-oc/tree/start-project)<br/>
 - "Lists" branch:<br/>
@@ -64,6 +64,7 @@ Home page:<br/>
 :point_right: [here](https://github.com/cla31/nveau-cours-js-oc/tree/using-library)
 
 **How to install the library:**<br/>
+<br/>
 `npm install chart.js`<br/>
 ##
 **Overview charts:**
