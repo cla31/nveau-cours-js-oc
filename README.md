@@ -31,14 +31,18 @@ From "start-project" branch to "display-filter-and-sort" branch,nothing to insta
 From these code versions, the front-end communicates with the back-end.
 **Set up and run Back-End**:<br/>
 With a terminal, go to the parent folder of the project of your web page and run the commands:<br/>
+<br/>
 `git clone https://github.com/OpenClassrooms-Student-Center/7697016-Back-End.git api-http `<br/>
 `cd api-http `<br/>
 `npm install `<br/>
+<br/>
 Then, to run the server:<br/>
 `npm start`<br/>
+<br/>
 URL to access API resources:<br/>
 `http://localhost:8081/pieces`<br/>
 `http://localhost:8081/avis`<br/>
+<br/>
 Home page:<br/>
 `http://localhost:8081`<br/>
 - "server-response-processing" branch:<br/>
@@ -56,7 +60,7 @@ Home page:<br/>
 - "using-library" branch:<br/>
 :point_right: [here](https://github.com/cla31/nveau-cours-js-oc/tree/using-library)
 
-**How to install the library:**
+**How to install the library:**<br/>
 `npm install chart.js`<br/>
 **Overview charts:**
 ##
