@@ -37,13 +37,16 @@ With a terminal, go to the parent folder of the project of your web page and run
 `npm install `<br/>
 <br/>
 Then, to run the server:<br/>
+<br/>
 `npm start`<br/>
 <br/>
 URL to access API resources:<br/>
+<br/>
 `http://localhost:8081/pieces`<br/>
 `http://localhost:8081/avis`<br/>
 <br/>
 Home page:<br/>
+<br/>
 `http://localhost:8081`<br/>
 - "server-response-processing" branch:<br/>
 :point_right: [here](https://github.com/cla31/nveau-cours-js-oc/tree/server-response-processing)
@@ -62,6 +65,7 @@ Home page:<br/>
 
 **How to install the library:**<br/>
 `npm install chart.js`<br/>
+##
 **Overview charts:**
 ##
 ![STRUCTURE-FICHIERS](./charts.png)
